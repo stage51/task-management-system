@@ -2,9 +2,15 @@ package com.example.taskmanagementsystem.controllers;
 
 import com.example.taskmanagementsystem.dtos.CommentDTO;
 import com.example.taskmanagementsystem.dtos.views.CommentViewDTO;
+import com.example.taskmanagementsystem.exceptions.AppError;
 import com.example.taskmanagementsystem.services.CommentService;
 import com.example.taskmanagementsystem.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +45,10 @@ public class CommentController {
         return commentService.getAll();
     }
     @Operation(summary = "Displaying all comments in current page", tags = "Comment")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CommentViewDTO.class)))),
+            @ApiResponse(responseCode = "401", description = "BAD_REQUEST", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppError.class)))
+    })
     @GetMapping("/page/{page}")
     public List<CommentViewDTO> getPageComments(@PathVariable Integer page){
         logger.info("Handling GET request for /api/comments/page/" + page);
@@ -46,6 +56,10 @@ public class CommentController {
         return commentService.getPage(page).toList();
     }
     @Operation(summary = "Displaying comment with current id", tags = "Comment")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CommentViewDTO.class))),
+            @ApiResponse(responseCode = "401", description = "BAD_REQUEST", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppError.class)))
+    })
     @GetMapping("/{id}")
     public CommentViewDTO getCommentById(@PathVariable Long id){
         logger.info("Handling GET request for /api/comments/" + id);
@@ -53,6 +67,10 @@ public class CommentController {
         return commentService.get(id);
     }
     @Operation(summary = "Creating new comment", tags = "Comment")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CommentViewDTO.class))),
+            @ApiResponse(responseCode = "401", description = "BAD_REQUEST", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppError.class)))
+    })
     @PostMapping("")
     public CommentViewDTO createComment(@RequestBody CommentDTO dto, Principal principal){
         logger.info("Handling POST request for /api/comments");
@@ -61,6 +79,10 @@ public class CommentController {
         return commentService.create(dto);
     }
     @Operation(summary = "Updating comment with current id", tags = "Comment")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CommentViewDTO.class))),
+            @ApiResponse(responseCode = "401", description = "BAD_REQUEST", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppError.class)))
+    })
     @PutMapping("/{id}")
     public CommentViewDTO updateComment(@PathVariable Long id, @RequestBody CommentDTO dto){
         logger.info("Handling PUT request for /api/comments/" + id);

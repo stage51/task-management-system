@@ -1,12 +1,20 @@
 package com.example.taskmanagementsystem.controllers;
 
 import com.example.taskmanagementsystem.dtos.UserDTO;
+import com.example.taskmanagementsystem.dtos.jwts.JwtResponse;
 import com.example.taskmanagementsystem.dtos.views.TaskViewDTO;
 import com.example.taskmanagementsystem.dtos.views.UserViewDTO;
+import com.example.taskmanagementsystem.exceptions.AppError;
 import com.example.taskmanagementsystem.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +41,10 @@ public class UserController {
         return userService.getAll();
     }
     @Operation(summary = "Displaying all users in current page", tags = "User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserViewDTO.class)))),
+            @ApiResponse(responseCode = "401", description = "BAD_REQUEST", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppError.class)))
+    })
     @GetMapping("/page/{page}")
     public List<UserViewDTO> getPageUsers(@PathVariable Integer page){
         logger.info("Handling GET request for /api/users/page/" + page);
@@ -47,6 +59,10 @@ public class UserController {
         return userService.get(id);
     }
     @Operation(summary = "Displaying user's created tasks in current page", tags = "User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TaskViewDTO.class)))),
+            @ApiResponse(responseCode = "401", description = "BAD_REQUEST", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppError.class)))
+    })
     @GetMapping("/{id}/tasks/created/page/{page}")
     public List<TaskViewDTO> getAuthorTasks(@PathVariable Long id, @PathVariable Integer page){
         logger.info("Handling GET request for /api/users/" + id + "/tasks/created/page/" + page);
@@ -54,6 +70,10 @@ public class UserController {
         return userService.getAuthorTasks(page, id).toList();
     }
     @Operation(summary = "Displaying tasks performed by the user in current page", tags = "User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TaskViewDTO.class)))),
+            @ApiResponse(responseCode = "401", description = "BAD_REQUEST", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppError.class)))
+    })
     @GetMapping("/{id}/tasks/executable/page/{page}")
     public List<TaskViewDTO> getExecutorTasks(@PathVariable Long id, @PathVariable Integer page){
         logger.info("Handling GET request for /api/users/" + id + "/tasks/executable/page/" + page);
@@ -61,6 +81,10 @@ public class UserController {
         return userService.getExecutorTasks(page, id).toList();
     }
     @Operation(summary = "Creating new user", tags = "User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserViewDTO.class))),
+            @ApiResponse(responseCode = "401", description = "BAD_REQUEST", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppError.class)))
+    })
     @PostMapping("")
     public UserViewDTO createUser(@RequestBody UserDTO dto){
         logger.info("Handling POST request for /api/users");
@@ -68,6 +92,10 @@ public class UserController {
         return userService.create(dto);
     }
     @Operation(summary = "Updating user with current id", tags = "User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserViewDTO.class))),
+            @ApiResponse(responseCode = "401", description = "BAD_REQUEST", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppError.class)))
+    })
     @PutMapping("/{id}")
     public UserViewDTO updateUser(@PathVariable Long id, @RequestBody UserDTO dto){
         logger.info("Handling PUT request for /api/users/" + id);
