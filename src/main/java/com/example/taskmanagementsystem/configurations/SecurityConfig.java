@@ -49,7 +49,6 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().disable()
                 .authorizeRequests()
-                .requestMatchers("/api/**").authenticated()
                 .requestMatchers(
                         "/swagger-ui/**", "/swagger-resources", "/swagger-resources/**", "/swagger-ui/index.html",
                         "/webjars/**", "/v3/**", "/v2/**",

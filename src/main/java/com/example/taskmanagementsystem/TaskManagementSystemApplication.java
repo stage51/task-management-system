@@ -1,6 +1,7 @@
 package com.example.taskmanagementsystem;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         info = @Info(
                 title = "Task Management System",
                 version = "0.0.1-SNAPSHOT",
-                description = "Простое REST приложение для работы с задачами, с регистрацией, авторизацией и возможностью комментирования"
+                description = "Простое REST приложение для работы с задачами, с регистрацией, авторизацией и возможностью комментирования",
+                contact = @Contact(
+                        name = "GitHub",
+                        url = "https://github.com/stage51/task-management-system"
+                )
         )
 )
 @SpringBootApplication
