@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         if (!validationUtils.isValid(dto)){
             logger.error("User is invalid");
             validationUtils.violations(dto).stream().forEach(s -> logger.error(s.getMessage()));
-            throw new EntityInvalidException("User isn't present");
+            throw new EntityInvalidException("User is present");
         } else{
             logger.info("Created " + dto);
             return modelMapper.map(userRepository.saveAndFlush(modelMapper.map(dto, User.class)), UserViewDTO.class);

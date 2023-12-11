@@ -65,7 +65,14 @@ public class TaskServiceImpl implements TaskService {
             throw new EntityInvalidException("Task is invalid");
         } else{
             logger.info("Created " + dto);
-            return modelMapper.map(taskRepository.saveAndFlush(modelMapper.map(dto, Task.class)), TaskViewDTO.class);
+            Task task = modelMapper.map(dto, Task.class);
+            if (dto.getAuthor() != null){
+                task.setAuthor(userRepository.findById(dto.getAuthor()).get());
+            }
+            if (dto.getExecutor() != null){
+                task.setExecutor(userRepository.findById(dto.getExecutor()).get());
+            }
+            return modelMapper.map(taskRepository.saveAndFlush(task), TaskViewDTO.class);
         }
     }
 

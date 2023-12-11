@@ -54,7 +54,7 @@ public class SecurityConfig {
                         "/webjars/**", "/v3/**", "/v2/**",
                         "configuration/ui", "configuration/security",
                         "/api/auth", "/api/registration").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .logout()
                 .logoutUrl("/api/logout")

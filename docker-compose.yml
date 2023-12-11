@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  mysqldb:
+    image: mysql
+    container_name: mysqldb
+    ports:
+      - "8889:3306"
+    networks:
+      - spring-net
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: task_manager
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  task-manager:
+    image: task-manager:latest
+    container_name: task-manager
+    ports:
+      - "9090:8082"
+    networks:
+      - spring-net
+    depends_on:
+      - mysqldb
+    environment:
+      MYSQL_HOST: mysqldb
+      MYSQL_PORT: 3306
+
+networks:
+  spring-net:
+    driver: bridge
