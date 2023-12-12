@@ -10,11 +10,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: task_manager
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
   task-manager:
     image: task-manager:latest
@@ -28,7 +23,7 @@ services:
     environment:
       MYSQL_HOST: mysqldb
       MYSQL_PORT: 3306
-
+    entrypoint: ["sh", "-c", "sleep 10 && java -jar /task-manager.jar"]
 networks:
   spring-net:
     driver: bridge
