@@ -69,5 +69,5 @@ docker-compose up
 > <img width="808" alt="step8" src="https://github.com/stage51/task-management-system/assets/57895435/eafab630-883a-442e-a4ff-db6e5223fae6">
 ### Swagger UI
 Вы можете посмотреть документацию для эндпоинтов по адресу ``/swagger-ui/index.html``
-<img width="1439" alt="2" src="https://github.com/stage51/task-management-system/assets/57895435/0c4a2e19-15ad-465c-9164-6d854c722946">
+> <img width="1439" alt="2" src="https://github.com/stage51/task-management-system/assets/57895435/0c4a2e19-15ad-465c-9164-6d854c722946">
 
