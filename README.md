@@ -17,12 +17,19 @@ cd task-management-system
 ```bash
 docker build -t task-manager .
 ```
-4. После успешной сборки, запустите контейнеры через Docker Compose
+4. После успешной сборки, запустите контейнеры через Docker Compose. Spring-приложение может запуститься немного позже, чем MySQL:
 ```bash
 docker-compose up 
 ```
 5. Теперь приложение доступно по адресу ``http://localhost:9090``
-
+* Если Spring-приложение отключилось, выполните:
+```bash
+docker run task-manager
+```
+* Или если контейнер с MySQL отключился, выполните:
+```bash
+docker run mysqldb
+```
 Работа с приложением
 ==
 ### Регистрация и авторизация
